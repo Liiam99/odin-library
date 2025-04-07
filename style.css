@@ -64,9 +64,14 @@ body {
 }
 
 .container {
-    display: grid;
-    place-content: center;
-    height: 100%;
+  display: grid;
+  place-content: center;
+  height: 100%;
+  gap: 30px;
+}
+
+.container h1 {
+  text-align: center;
 }
 
 table {
@@ -99,4 +104,53 @@ tr:nth-child(odd) td {
 
 caption {
   padding: 10px;
+}
+
+dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bookForm {
+  display: grid;
+}
+
+.showDialog {
+  width: max-content;
+  justify-self: center;
+  padding: 5px 15px;
+}
+
+.closeDialog {
+  justify-self: end;
+  padding: 5px 15px;
+  font-weight: 500;
+  clip-path: circle();
+  border: none;
+}
+
+.closeDialog:focus {
+  background-color: rgb(189, 189, 189);
+}
+
+.formHeader {
+  justify-self: center;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 10px;
+  align-items: center;
+  justify-items: end;
+}
+
+.addBook {
+  width: min-content;
+  justify-self: center;
+  margin-top: 40px;
+  padding: 5px 15px;
 }

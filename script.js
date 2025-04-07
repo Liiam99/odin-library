@@ -1,25 +1,42 @@
 (() => {
+    const dialog = document.querySelector('dialog');
+    const showButton = document.querySelector('.showDialog');
+    showButton.addEventListener('click', () => {
+        dialog.showModal();
+    });
+
+    const closeButton = document.querySelector('.closeDialog');
+    closeButton.addEventListener('click', () => {
+        dialog.close();
+        clearBookForm();
+    })
+
+    const bookForm = document.querySelector('.bookForm');
+    bookForm.addEventListener('submit', () => {
+        const title = document.querySelector('#title').value;
+        const author = document.querySelector('#author').value;
+        const numberOfPages = document.querySelector('#numberOfPages').value;
+
+        addBookToLibrary(title, author, numberOfPages);
+        addLibraryToDisplay();
+
+        clearBookForm();
+    });
 
     const myLibrary = [];
 
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 310, false);
-    addBookToLibrary("Harry Potter and the Philosopher's Stone", 'J.K. Rowling', 223, true);
-    addBookToLibrary('Material matters', 'Thomas Rau', 224, true);
 
-    addLibraryToDisplay(myLibrary)
-
-
-    function Book(title, author, n_page, have_read) {
+    function Book(title, author, n_page) {
         this.id = crypto.randomUUID();
         this.title = title;
         this.author = author;
         this.n_page = n_page;
-        this.have_read = have_read;
+        this.read = false;
     }
 
 
-    function addBookToLibrary(title, author, n_page, have_read) {
-        let book = new Book(title, author, n_page, have_read);
+    function addBookToLibrary(title, author, n_page) {
+        let book = new Book(title, author, n_page);
 
         myLibrary.push(book);
     }
@@ -39,8 +56,9 @@
             docFrag.appendChild(tableEntry);
         }
 
-        const table = document.querySelector('table');
-        table.appendChild(docFrag);
+        const tableBody = document.querySelector('tbody');
+        tableBody.innerHTML = '';
+        tableBody.appendChild(docFrag);
     }
 
 
@@ -58,5 +76,16 @@
         }
 
         return tableRow;
+    }
+
+
+    function clearBookForm() {
+        const titleField = document.querySelector('#title');
+        const authorField = document.querySelector('#author');
+        const numberOfPagesField = document.querySelector('#numberOfPages');
+
+        titleField.value = '';
+        authorField.value = '';
+        numberOfPagesField.value = '';
     }
 })();
