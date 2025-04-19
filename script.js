@@ -35,6 +35,10 @@
         this.read = false;
     }
 
+    Book.prototype.toggleRead = function () {
+        this.read = this.read ? false : true;
+    }
+
 
     function addBookToLibrary(title, author, n_page) {
         let book = new Book(title, author, n_page);
@@ -46,14 +50,8 @@
     function addLibraryToDisplay() {
         const docFrag = document.createDocumentFragment();
 
-        for (let i = 0; i < myLibrary.length; i++) {
-            const tableEntry = createTableEntry(myLibrary[i]);
-
-            const rowHeader = document.createElement('th');
-            rowHeader.textContent = i + 1;
-            rowHeader.setAttribute('scope', 'row');
-            tableEntry.prepend(rowHeader);
-
+        for (const book of myLibrary) {
+            const tableEntry = createTableEntry(book);
             docFrag.appendChild(tableEntry);
         }
 
@@ -67,12 +65,23 @@
         const tableRow = document.createElement('tr');
 
         for (const prop in book) {
-            if (prop != 'id') {
+            if (prop !== 'id' && prop !== 'toggleRead') {
                 const tableData = document.createElement('td');
-                tableData.textContent = book[prop];
+
+                if (prop === 'read') {
+                    const readCheckbox = document.createElement('input');
+                    readCheckbox.type = 'checkbox';
+                    readCheckbox.checked = book.read;
+                    readCheckbox.addEventListener('change', () => {book.toggleRead()});
+                    tableData.appendChild(readCheckbox);
+                } else {
+                    tableData.textContent = book[prop];
+                }
+
                 tableRow.appendChild(tableData);
             }
         }
+
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
