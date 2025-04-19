@@ -1,21 +1,22 @@
 (() => {
     const dialog = document.querySelector('dialog');
-    const showButton = document.querySelector('.showDialog');
+    const showButton = document.querySelector('.show-dialog');
     showButton.addEventListener('click', () => {
         dialog.showModal();
     });
 
-    const closeButton = document.querySelector('.closeDialog');
+    const closeButton = document.querySelector('.close-dialog');
     closeButton.addEventListener('click', () => {
         dialog.close();
-        clearBookForm();
-    })
+    });
 
-    const bookForm = document.querySelector('.bookForm');
+    dialog.addEventListener('close', clearBookForm);
+
+    const bookForm = document.querySelector('.book-form');
     bookForm.addEventListener('submit', () => {
         const title = document.querySelector('#title').value;
         const author = document.querySelector('#author').value;
-        const numberOfPages = document.querySelector('#numberOfPages').value;
+        const numberOfPages = document.querySelector('#number-of-pages').value;
 
         addBookToLibrary(title, author, numberOfPages);
         addLibraryToDisplay();
@@ -66,14 +67,22 @@
         const tableRow = document.createElement('tr');
 
         for (const prop in book) {
-            if (prop === 'id') {
-                continue;
+            if (prop != 'id') {
+                const tableData = document.createElement('td');
+                tableData.textContent = book[prop];
+                tableRow.appendChild(tableData);
             }
-
-            const tableData = document.createElement('td');
-            tableData.textContent = book[prop];
-            tableRow.appendChild(tableData);
         }
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'X';
+        removeButton.type = 'button';
+        removeButton.className = 'remove-book';
+        removeButton.addEventListener('click', () => {
+            tableRow.remove();
+            myLibrary.splice(myLibrary.indexOf(book), 1);
+        })
+        tableRow.appendChild(removeButton);
 
         return tableRow;
     }
@@ -82,7 +91,7 @@
     function clearBookForm() {
         const titleField = document.querySelector('#title');
         const authorField = document.querySelector('#author');
-        const numberOfPagesField = document.querySelector('#numberOfPages');
+        const numberOfPagesField = document.querySelector('#number-of-pages');
 
         titleField.value = '';
         authorField.value = '';

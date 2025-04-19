@@ -113,17 +113,17 @@ dialog {
   transform: translate(-50%, -50%);
 }
 
-.bookForm {
+.book-form {
   display: grid;
 }
 
-.showDialog {
+.show-dialog {
   width: max-content;
   justify-self: center;
   padding: 5px 15px;
 }
 
-.closeDialog {
+.close-dialog {
   justify-self: end;
   padding: 5px 15px;
   font-weight: 500;
@@ -131,11 +131,11 @@ dialog {
   border: none;
 }
 
-.closeDialog:focus {
+.close-dialog:focus {
   background-color: rgb(189, 189, 189);
 }
 
-.formHeader {
+.form-header {
   justify-self: center;
   margin-bottom: 20px;
 }
@@ -148,9 +148,21 @@ dialog {
   justify-items: end;
 }
 
-.addBook {
+.add-book {
   width: min-content;
   justify-self: center;
   margin-top: 40px;
   padding: 5px 15px;
+}
+
+.remove-book {
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  padding: 10px;
+}
+
+.remove-book:hover {
+  background-color: rgba(128, 128, 128, 0.445);
 }
