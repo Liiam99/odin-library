@@ -27,16 +27,26 @@
     const myLibrary = [];
 
 
-    function Book(title, author, n_page) {
-        this.id = crypto.randomUUID();
-        this.title = title;
-        this.author = author;
-        this.n_page = n_page;
-        this.read = false;
-    }
+    class Book {
+        #id = crypto.randomUUID();
+        read = false;
 
-    Book.prototype.toggleRead = function () {
-        this.read = this.read ? false : true;
+        constructor(title, author, n_page) {
+            this.title = title;
+            this.author = author;
+            this.n_page = n_page;
+        }
+        get fields() {
+            return {
+                title: this.title,
+                author: this.author,
+                n_page: this.n_page,
+                read: this.read,
+            };
+        }
+        toggleRead() {
+            this.read = !this.read;
+        }
     }
 
 
@@ -64,24 +74,21 @@
     function createTableEntry(book) {
         const tableRow = document.createElement('tr');
 
-        for (const prop in book) {
-            if (prop !== 'id' && prop !== 'toggleRead') {
-                const tableData = document.createElement('td');
+        for (const field in book.fields) {
+            const tableData = document.createElement('td');
 
-                if (prop === 'read') {
-                    const readCheckbox = document.createElement('input');
-                    readCheckbox.type = 'checkbox';
-                    readCheckbox.checked = book.read;
-                    readCheckbox.addEventListener('change', () => {book.toggleRead()});
-                    tableData.appendChild(readCheckbox);
-                } else {
-                    tableData.textContent = book[prop];
-                }
-
-                tableRow.appendChild(tableData);
+            if (field === 'read') {
+                const readCheckbox = document.createElement('input');
+                readCheckbox.type = 'checkbox';
+                readCheckbox.checked = book.read;
+                readCheckbox.addEventListener('change', () => {book.toggleRead()});
+                tableData.appendChild(readCheckbox);
+            } else {
+                tableData.textContent = book[field];
             }
-        }
 
+            tableRow.appendChild(tableData);
+        }
 
         const removeButton = document.createElement('button');
         removeButton.textContent = 'X';
